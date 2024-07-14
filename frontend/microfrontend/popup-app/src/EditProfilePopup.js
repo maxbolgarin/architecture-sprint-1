@@ -1,10 +1,11 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useSelector } from 'react-redux';
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const currentUser = useSelector(state => state.user);
 
   function handleNameChange(e) {
     setName(e.target.value);
@@ -13,8 +14,6 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
-
-  const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
     if (currentUser) {

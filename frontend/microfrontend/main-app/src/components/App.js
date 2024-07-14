@@ -1,20 +1,21 @@
 import React from "react";
 import { Route, useHistory, Switch } from "react-router-dom";
+import InfoTooltip from "./InfoTooltip.js";
+import ProtectedRoute from "./ProtectedRoute.js";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
-import PopupWithForm from "./PopupWithForm.js";
-import ImagePopup from "./ImagePopup.js";
-import api from "../utils/api.js";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-import EditProfilePopup from "./EditProfilePopup.js";
-import EditAvatarPopup from "./EditAvatarPopup.js";
-import AddPlacePopup from "./AddPlacePopup.js";
 import Register from "auth_app/Register";
 import Login from "auth_app/Login";
-import InfoTooltip from "./InfoTooltip.js";
-import ProtectedRoute from "./ProtectedRoute.js";
+import PopupWithForm from "popup_app/PopupWithForm";
+import ImagePopup from "popup_app/ImagePopup";
+import EditProfilePopup from "popup_app/EditProfilePopup";
+import EditAvatarPopup from "popup_app/EditAvatarPopup";
+import AddPlacePopup from "popup_app/AddPlacePopup";
+import api from "../utils/api.js";
 import * as auth from "../utils/auth.js";
+import { useDispatch  } from 'react-redux'
+import { setUser } from '../store/user'
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -25,6 +26,7 @@ function App() {
 
   // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
   const [currentUser, setCurrentUser] = React.useState({});
+  useDispatch(setUser(currentUser))
 
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
   const [tooltipStatus, setTooltipStatus] = React.useState("");
@@ -34,6 +36,7 @@ function App() {
   const [email, setEmail] = React.useState("");
 
   const history = useHistory();
+  //let currentUser = useSelector(state => state.user);
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
@@ -176,8 +179,7 @@ function App() {
   }
 
   return (
-    // В компонент App внедрён контекст через CurrentUserContext.Provider
-    <CurrentUserContext.Provider value={currentUser}>
+    // В компонент App внедрён store с user через redux
       <div className="page__content">
         <Header email={email} onSignOut={onSignOut} />
         <Switch>
@@ -227,7 +229,6 @@ function App() {
           status={tooltipStatus}
         />
       </div>
-    </CurrentUserContext.Provider>
   );
 }
 

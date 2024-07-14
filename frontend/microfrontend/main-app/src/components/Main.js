@@ -1,9 +1,12 @@
 import React from 'react';
 import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useSelector } from 'react-redux';
 
 function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  let currentUser = useSelector(state => state.user);
+  if (!currentUser) {
+    currentUser = {}
+  }
 
   const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
 

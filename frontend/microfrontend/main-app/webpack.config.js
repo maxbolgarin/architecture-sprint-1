@@ -9,7 +9,12 @@ module.exports = {
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     port: 3000,
-    historyApiFallback: true
+    historyApiFallback: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -29,6 +34,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       remotes: {
         'auth_app': 'auth_app@http://localhost:3001/remoteEntry.js',
+        'popup_app': 'popup_app@http://localhost:3002/remoteEntry.js',
       },
       shared: {
         react: {
@@ -39,6 +45,12 @@ module.exports = {
         },
         'react-router-dom': {
           singleton: true,
+        },
+        'redux': {
+          singleton: true
+        },
+        'react-redux': {
+          singleton: true
         }
       }
     }),
@@ -54,8 +66,8 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", {loader: "css-loader", options:{url:true}}],
-      },
+        
+   use: ["style-loader", "css-loader"],   },
       {
         test: /\.(png|jpe?g|gif|eot|woff2|woff|ttf|svg)$/i,    
         type: 'asset/resource'

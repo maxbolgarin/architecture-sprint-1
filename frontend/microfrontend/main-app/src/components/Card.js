@@ -1,8 +1,9 @@
 import React from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { useSelector } from 'react-redux';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardStyle = { backgroundImage: `url(${card.link})` };
+  const currentUser = useSelector(state => state.user);
 
   function handleClick() {
     onCardClick(card);
@@ -15,8 +16,6 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   function handleDeleteClick() {
     onCardDelete(card);
   }
-
-  const currentUser = React.useContext(CurrentUserContext);
 
   const isLiked = card.likes.some(i => i._id === currentUser._id);
   const cardLikeButtonClassName = `card__like-button ${isLiked && 'card__like-button_is-active'}`;

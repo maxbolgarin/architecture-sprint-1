@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/index.js',
   mode: 'development',
   devServer: {
-    port: 3001,
+    port: 3002,
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -17,11 +17,14 @@ module.exports = {
       template: './public/index.html',
     }),
     new ModuleFederationPlugin({
-      name: 'auth_app',
+      name: 'popup_app',
       filename: 'remoteEntry.js',
       exposes: {
-        './Login': './src/Login.js',
-        './Register': './src/Register.js',
+        './PopupWithForm': './src/PopupWithForm.js',
+        './AddPlacePopup': './src/AddPlacePopup.js',
+        './EditAvatarPopup': './src/EditAvatarPopup.js',
+        './EditProfilePopup': './src/EditProfilePopup.js',
+        './ImagePopup': './src/ImagePopup.js',
       },
       shared: {
         react: {
@@ -31,6 +34,12 @@ module.exports = {
           singleton: true
         },
         'react-router-dom': {
+          singleton: true
+        },
+        'redux': {
+          singleton: true
+        },
+        'react-redux': {
           singleton: true
         }
       }
@@ -48,7 +57,11 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
-      }
+      },
+      // {
+      //   test: /\.(png|jpe?g|gif|eot|woff2|woff|ttf|svg)$/i,    
+      //   type: 'asset/resource'
+      // }
     ],
   }
 
