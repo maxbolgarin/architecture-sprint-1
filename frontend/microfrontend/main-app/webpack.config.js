@@ -6,13 +6,9 @@ const { ModuleFederationPlugin } = require('@module-federation/enhanced');
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
-  // output: {
-  //   filename: 'main.js',
-  //   path: path.resolve(__dirname, 'dist'),
-  //   clean: true
-  // },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
+    port: 3000,
     historyApiFallback: true
   },
   plugins: [
@@ -32,7 +28,7 @@ module.exports = {
       name: 'main_frontend',
       filename: 'remoteEntry.js',
       remotes: {
-        'auth_frontend': 'auth_frontend@http://localhost:3001/remoteEntry.js',
+        'auth_app': 'auth_app@http://localhost:3001/remoteEntry.js',
       },
       shared: {
         react: {
@@ -41,6 +37,9 @@ module.exports = {
         'react-dom': {
           singleton: true,
         },
+        'react-router-dom': {
+          singleton: true,
+        }
       }
     }),
   ],

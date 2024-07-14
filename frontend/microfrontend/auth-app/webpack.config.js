@@ -1,4 +1,3 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('@module-federation/enhanced');
 
@@ -6,7 +5,6 @@ module.exports = {
   entry: './src/index.js',
   mode: 'development',
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
     port: 3001
   },
   plugins: [
@@ -14,7 +12,7 @@ module.exports = {
       template: './public/index.html',
     }),
     new ModuleFederationPlugin({
-      name: 'auth_frontend',
+      name: 'auth_app',
       filename: 'remoteEntry.js',
       exposes: {
         './Login': './src/Login.js',
@@ -27,6 +25,9 @@ module.exports = {
         'react-dom': {
           singleton: true
         },
+        'react-router-dom': {
+          singleton: true
+        }
       }
     }),
   ],
