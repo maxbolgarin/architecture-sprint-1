@@ -22,10 +22,10 @@ module.exports = {
       },
       shared: {
         react: {
-          singleton: true,
+          singleton: true
         },
         'react-dom': {
-          singleton: true,
+          singleton: true
         },
       }
     }),

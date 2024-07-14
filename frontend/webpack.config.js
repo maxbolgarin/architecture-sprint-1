@@ -1,15 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { ModuleFederationPlugin } = require('@module-federation/enhanced');
 
 module.exports = {
   entry: './src/index.js',
   mode: 'development',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true
-  },
+  // output: {
+  //   filename: 'main.js',
+  //   path: path.resolve(__dirname, 'dist'),
+  //   clean: true
+  // },
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     historyApiFallback: true
@@ -26,6 +27,21 @@ module.exports = {
           to: path.join(__dirname, "dist"), 
           filter: (resourcePath) => { return !resourcePath.includes("index.html") } 
         }]
+    }),
+    new ModuleFederationPlugin({
+      name: 'main_frontend',
+      filename: 'remoteEntry.js',
+      remotes: {
+        'auth_frontend': 'auth_frontend@http://localhost:3001/remoteEntry.js',
+      },
+      shared: {
+        react: {
+          singleton: true,
+        },
+        'react-dom': {
+          singleton: true,
+        },
+      }
     }),
   ],
   module: {

@@ -50,6 +50,7 @@
     "@babel/core": "^7.24.8",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
+    "@module-federation/enhanced": "^0.2.6",
     "@playwright/test": "^1.45.0",
     "@types/node": "^20.14.9",
     "babel-loader": "^9.1.3",
